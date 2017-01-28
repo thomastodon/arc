@@ -1,0 +1,10 @@
+version: '3'
+services:
+  rabbitmq:
+    build: .
+    environment:
+      RABBITMQ_DEFAULT_USER: noah
+      RABBITMQ_DEFAULT_PASS: herron
+    ports:
+    - 15672:15672
+    - 1883:1883
