@@ -3,11 +3,12 @@
 ## spinning things up locally
 
 Mount the [W5100 Ethernet Shield](https://www.sunfounder.com/ethernet-shield-w5100-for-arduino.html) onto the [Arduino UNO](https://www.arduino.cc/en/Main/ArduinoBoardUno)
-Connect the [W5100 Ethernet Shield](https://www.sunfounder.com/ethernet-shield-w5100-for-arduino.html) to your router with a patch cable
+
+Connect the [W5100 Ethernet Shield](https://www.sunfounder.com/ethernet-shield-w5100-for-arduino.html) to your [router](http://www.apple.com/airport-time-capsule/) with a patch cable
 
 Your router should be configured to assign IP addresses dynamically with DHCP
 
-Get the IP address of your local device, which is hosting the message queue. Update the `messageQueueIP` in the sketch.
+Get the IP address of your local device, which is hosting the message queue. Update the `messageQueueIP` in the sketch with what outputs from the below.
 ```bash
 $ ipconfig getifaddr en1
 ```
