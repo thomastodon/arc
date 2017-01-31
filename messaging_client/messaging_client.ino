@@ -2,8 +2,13 @@
 #include <Ethernet.h>
 #include <PubSubClient.h>
 
+// toggle this
+bool connectedToRouter = false;
+
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
 IPAddress messageQueueIP(10, 0, 1, 4);
+IPAddress messageQueueStaticIP(192, 168, 0, 1);
+IPAddress arduinoStaticIP(192, 168, 0, 2);
 int messageQueuePort = 1883;
 char messageQueueUsername[] = "noah";
 char messageQueuePassword[] = "herron";
@@ -32,11 +37,19 @@ void setup()
   Serial.begin(57600);
 
   Serial.print("Attempting ethernet connection... ");
-  Ethernet.begin(mac);
+  if (connectedToRouter) {
+    Ethernet.begin(mac);
+  } else {
+    Ethernet.begin(mac, arduinoStaticIP);
+  }
   Serial.print("connected with local IP ");
   Serial.println(Ethernet.localIP());
-  
-  pubSubClient.setServer(messageQueueIP, messageQueuePort);
+
+  if (connectedToRouter) {
+    pubSubClient.setServer(messageQueueIP, messageQueuePort);
+  } else {
+    pubSubClient.setServer(messageQueueStaticIP, messageQueuePort);
+  }
   Serial.print("Arduino configured to consume message queue at ");
   Serial.print(messageQueueIP);
   Serial.print(":");
