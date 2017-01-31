@@ -1,6 +1,6 @@
-# arc
+# Haus
 
-## spinning things up
+## running things locally
 
 ```bash
 $ docker-compose up -d
