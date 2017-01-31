@@ -3,7 +3,7 @@
 #include <PubSubClient.h>
 
 // toggle this
-bool connectedToRouter = false;
+bool connectedToARouter = false;
 
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
 IPAddress messageQueueIP(10, 0, 1, 4);
@@ -37,7 +37,7 @@ void setup()
   Serial.begin(57600);
 
   Serial.print("Attempting ethernet connection... ");
-  if (connectedToRouter) {
+  if (connectedToARouter) {
     Ethernet.begin(mac);
   } else {
     Ethernet.begin(mac, arduinoStaticIP);
@@ -45,7 +45,7 @@ void setup()
   Serial.print("connected with local IP ");
   Serial.println(Ethernet.localIP());
 
-  if (connectedToRouter) {
+  if (connectedToARouter) {
     pubSubClient.setServer(messageQueueIP, messageQueuePort);
   } else {
     pubSubClient.setServer(messageQueueStaticIP, messageQueuePort);
