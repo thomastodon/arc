@@ -1,0 +1,12 @@
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: noah
+    password: herron
+  cloud:
+    stream:
+      bindings:
+        testChannel:
+          destination: testExchange
+          group: testGroup
