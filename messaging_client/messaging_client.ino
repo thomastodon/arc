@@ -1,9 +1,15 @@
+#include <DallasTemperature.h>
+#include <OneWire.h>
 #include <SPI.h>
 #include <Ethernet.h>
 #include <PubSubClient.h>
 
-// toggle this
-bool connectedToARouter = false;
+int tempSensorPin = 5;
+float temperature = 0;
+OneWire oneWirePin(tempSensorPin);
+DallasTemperature sensors(&oneWirePin);
+
+bool connectedToARouter = false; // toggle this
 
 byte mac[] = { 0xDE, 0xED, 0xBA, 0xFE, 0xFE, 0xED };
 IPAddress messageQueueIP(10, 0, 1, 4);
@@ -12,6 +18,7 @@ IPAddress arduinoStaticIP(192, 168, 0, 2);
 int messageQueuePort = 1883;
 char messageQueueUsername[] = "noah";
 char messageQueuePassword[] = "herron";
+char topic[] = "testExchange";
 
 EthernetClient ethernetClient;
 PubSubClient pubSubClient(ethernetClient);
@@ -21,8 +28,6 @@ void reconnect() {
     Serial.print("Attempting connection with message queue... ");
     if (pubSubClient.connect("arduinoClient", messageQueueUsername, messageQueuePassword)) {
       Serial.println("connected");
-      pubSubClient.publish("outTopic","hello world");
-      Serial.println("Successfully published message");
     } else {
       Serial.print("failed, rc=");
       Serial.print(pubSubClient.state());
@@ -54,10 +59,25 @@ void setup()
   Serial.print(messageQueueIP);
   Serial.print(":");
   Serial.println(messageQueuePort);
+  
+  sensors.begin();
 }
 
 void loop()
 {
+  Serial.print("Requesting temperature... ");
+  sensors.requestTemperatures();  
+  Serial.print("complete, ");
+  temperature = sensors.getTempCByIndex(0);
+  Serial.print("temperature=");
+  Serial.print(temperature);
+  char temperatureString[15];
+  dtostrf(temperature, 5, 2, temperatureString);
+  pubSubClient.publish(topic, temperatureString);
+  Serial.println(" ...successfully published");
+  
+  delay(5000);
+
   if (!pubSubClient.connected()) {
     reconnect();
   }
