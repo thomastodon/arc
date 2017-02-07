@@ -1,11 +1,19 @@
 package app;
 
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.support.GenericMessage;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TemperatureProducer {
 
-    @SendTo(TemperatureSource.OUTPUT)
-    public String produce() {
-        return "123";
+    private TemperatureSource temperatureSource;
+
+    public TemperatureProducer(final TemperatureSource temperatureSource) {
+        this.temperatureSource = temperatureSource;
+    }
+
+    public void produce() {
+        // RX here
+        temperatureSource.testChannel().send(new GenericMessage<>("20.13"));
     }
 }
