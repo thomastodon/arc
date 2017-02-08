@@ -1,0 +1,5 @@
+pairs:
+  ts: Thomas Shouler
+email:
+  prefix: pair
+  no_solo_prefix: true
