@@ -10,5 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ApplicationTest {
 
     @Test
-    public void contextLoads() {}
+    public void contextLoads() {
+        System.out.println("got there");
+    }
 }

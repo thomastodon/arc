@@ -1,15 +1,36 @@
 package app;
 
-import org.springframework.integration.annotation.InboundChannelAdapter;
+import io.reactivex.Flowable;
+import io.reactivex.Scheduler;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.support.GenericMessage;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ThreadLocalRandom;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Component
 class TemperatureService {
 
-    @InboundChannelAdapter(value = TemperatureSource.OUTPUT)
-    public Long send() {
-        return ThreadLocalRandom.current().nextLong(20, 40);
+    private TemperatureSource temperatureSource;
+    private Scheduler scheduler;
+
+    @Autowired
+    TemperatureService(
+        TemperatureSource temperatureSource,
+        Scheduler scheduler
+    ) {
+        this.temperatureSource = temperatureSource;
+        this.scheduler = scheduler;
+    }
+
+    // TODO: this post construct is mesing everything up. We successfully bind to the channel
+//    @PostConstruct
+    void produceTemperatures() {
+        Flowable.interval(5, SECONDS, scheduler)
+            .subscribe(this::sendTemperature);
+    }
+
+    private boolean sendTemperature(Long e) {
+        return temperatureSource.testChannel().send(new GenericMessage<>(e.toString()));
     }
 }
