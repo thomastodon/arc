@@ -31,3 +31,6 @@ If you have difficulty connecting to your local network, confirm that the MAC ad
 ```bash
 $ arp -a
 ```
+```bash
+$ sudo arp-scan --interface=en1 --localnet
+```
