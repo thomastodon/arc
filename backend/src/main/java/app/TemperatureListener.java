@@ -7,11 +7,11 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Listener {
+public class TemperatureListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Listener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TemperatureListener.class);
 
-    @StreamListener(Sink.INPUT)
+    @StreamListener(TemperatureSink.INPUT)
     public void process(@Payload final String message) {
 
     }

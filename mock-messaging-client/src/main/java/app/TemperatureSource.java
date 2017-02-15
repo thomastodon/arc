@@ -4,8 +4,8 @@ import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.messaging.MessageChannel;
 
 interface TemperatureSource {
-    String OUTPUT = "testChannel";
+    String OUTPUT = "temperature";
 
     @Output(value = TemperatureSource.OUTPUT)
-    MessageChannel testChannel();
+    MessageChannel temperature();
 }

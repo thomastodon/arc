@@ -10,6 +10,6 @@ spring:
   cloud:
     stream:
       bindings:
-        testChannel:
-          destination: testExchange
-          group: testGroup
+        temperature:
+          destination: temperature
+          group: haus

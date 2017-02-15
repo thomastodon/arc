@@ -18,7 +18,7 @@ IPAddress arduinoStaticIP(192, 168, 0, 2);
 int messageQueuePort = 1883;
 char messageQueueUsername[] = "noah";
 char messageQueuePassword[] = "herron";
-char topic[] = "testExchange";
+char topic[] = "temperature.haus";
 
 EthernetClient ethernetClient;
 PubSubClient pubSubClient(ethernetClient);
