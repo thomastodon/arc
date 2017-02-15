@@ -13,6 +13,6 @@ public class Listener {
 
     @StreamListener(Sink.INPUT)
     public void process(@Payload final String message) {
-        LOGGER.info("Handling message: {}", message);
+
     }
 }
