@@ -7,3 +7,25 @@ services:
     - 15672:15672
     - 5672:5672
     - 1883:1883
+  db:
+    container_name: db
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: herron
+      MYSQL_DATABASE: haus
+      MYSQL_USER: noah
+      MYSQL_PASSWORD: herron
+    ports:
+    - "3306:3306"
+  db-test:
+    container_name: db-test
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: herron
+      MYSQL_DATABASE: haus
+      MYSQL_USER: noah
+      MYSQL_PASSWORD: herron
+    ports:
+    - "3307:3306"
