@@ -25,7 +25,6 @@ public class TemperatureServiceTest {
     @Mock private Clock mockClock;
     @Captor private ArgumentCaptor<Temperature> temperatureCaptor;
 
-
     @Before
     public void setUp() throws Exception {
         temperatureService = new TemperatureService(mockTemperatureRepository, mockClock);
@@ -42,5 +41,12 @@ public class TemperatureServiceTest {
         Temperature temperature = temperatureCaptor.getValue();
         assertThat(temperature.getDegrees()).isEqualTo(32.64);
         assertThat(temperature.getTime()).isEqualTo(LocalDateTime.of(1982, 7, 13, 12, 29, 12));
+    }
+
+    @Test
+    public void getTemperature_get_from_the_repository() {
+        temperatureService.getTemperature();
+
+        verify(mockTemperatureRepository).findLatest();
     }
 }

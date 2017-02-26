@@ -30,4 +30,19 @@ public class TemperatureRepositoryTest {
 
         assertThat(actualTemperature).isSameAs(temperature);
     }
+
+    @Test
+    public void findLatest_returns_the_latest_temperature() {
+        Temperature temperature1 = new Temperature(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45);
+        Temperature temperature2 = new Temperature(LocalDateTime.of(1983, 7, 13, 12, 29, 12), 23.45);
+        Temperature temperature3 = new Temperature(LocalDateTime.of(1984, 7, 13, 12, 29, 12), 23.45);
+
+        temperatureRepository.save(temperature1);
+        temperatureRepository.save(temperature2);
+        temperatureRepository.save(temperature3);
+
+        Temperature latestTemperature = temperatureRepository.findLatest();
+
+        assertThat(latestTemperature).isSameAs(temperature3);
+    }
 }

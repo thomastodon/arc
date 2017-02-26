@@ -25,4 +25,8 @@ class TemperatureService {
         Temperature temperature = new Temperature(time, Double.parseDouble(degrees));
         temperatureRepository.save(temperature);
     }
+
+    public Temperature getTemperature() {
+        return temperatureRepository.findLatest();
+    }
 }
