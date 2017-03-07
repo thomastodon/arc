@@ -3,7 +3,7 @@ import {getHost} from "../actions/locationFacade";
 
 export const resolveEnvApiHost = () => {
     const host = getHost()
-    return 'http://localhost:8181'
+    return 'http://localhost:8080'
 }
 
 axios.defaults.baseURL = resolveEnvApiHost()
