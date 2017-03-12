@@ -19,13 +19,6 @@ describe('Temperature', () => {
             return <Temperature.WrappedComponent temperature={""} {...props}/>
         }
 
-        describe('on mount', () => {
-            it('calls setTemperature', () => {
-                shallow(createPage({ temperature: "" }))
-                expect(setTemperature).toBeCalled()
-            })
-        })
-
         describe('render', () => {
             it('renders temperature when temperature is set', () => {
                 const dom = shallow(createPage({temperature: '23.49'}))

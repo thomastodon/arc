@@ -1,17 +1,14 @@
 import React, {PropTypes, Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
-import setTemperature from "../../actions/temperature"
+import setTemperature from "../actions/temperature"
 import _ from "lodash";
 
 export function mapStateToProps(state) {
     return {temperature: state.temperature}
 }
 
-@connect(mapStateToProps, {
-    setTemperature,
-})
-export default class Temperature extends Component {
+class Temperature extends Component {
 
     static propTypes = {
         temperature: PropTypes.string,
@@ -22,7 +19,6 @@ export default class Temperature extends Component {
     }
 
     componentWillMount() {
-        this.props.setTemperature()
     }
 
     renderTemperature() {
@@ -37,3 +33,5 @@ export default class Temperature extends Component {
         )
     }
 }
+
+export default connect(mapStateToProps)(Temperature);

@@ -1,21 +1,29 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "babel-polyfill"
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload!
-        </p>
-      </div>
-    );
-  }
+import React from 'react'
+import ReactDOM from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+
+import Temperature from './components/Temperature'
+import reducer from './reducers'
+import rootSaga from './sagas/rootSaga'
+
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(
+  reducer,
+  applyMiddleware(sagaMiddleware)
+)
+sagaMiddleware.run(rootSaga)
+
+const action = type => store.dispatch({type})
+
+function render() {
+  ReactDOM.render(
+    <Temperature temperature={store.getState()}/>,
+    document.getElementById('root')
+  )
 }
 
-export default App;
+render()
+store.subscribe(render)
