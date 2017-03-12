@@ -20,7 +20,8 @@ const action = type => store.dispatch({type})
 
 function render() {
   ReactDOM.render(
-    <Temperature temperature={store.getState()}/>,
+//    <Temperature temperature={store.getState()}/>,
+    <div id='hello'></div>,
     document.getElementById('root')
   )
 }
