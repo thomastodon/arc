@@ -2,27 +2,27 @@ var path = require('path')
 var webpack = require('webpack')
 
 module.exports = {
-  devtool: 'eval',
+  devtool: 'cheap-module-source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    path.join(__dirname, 'src', 'App')
+    './src/App'
   ],
   output: {
     pathinfo: true,
     path: path.join(__dirname, 'build'),
-    filename: 'bundle.js',
-    publicPath: '/static/'
+    filename: 'bundle.js'
   },
   module: {
     loaders: [{
-      test: /\.js$/,
+      test: /\.jsx?$/,
       loaders: [ 'babel' ],
       exclude: /node_modules/,
-      include: __dirname
+      include: path.join(__dirname, 'src')
     }]
   },
   devServer: {
     stats: 'errors-only',
-  }
+    contentBase: "./src"
+  },
 }

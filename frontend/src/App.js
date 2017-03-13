@@ -18,6 +18,9 @@ sagaMiddleware.run(rootSaga)
 
 const action = type => store.dispatch({type})
 
+console.log("HERE");
+console.log(document.getElementById('root'));
+
 function render() {
   ReactDOM.render(
 //    <Temperature temperature={store.getState()}/>,
