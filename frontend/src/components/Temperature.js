@@ -8,10 +8,11 @@ export function mapStateToProps(state) {
     return {temperature: state.temperature}
 }
 
-class Temperature extends Component {
+@connect(mapStateToProps)
+export default class Temperature extends Component {
 
     static propTypes = {
-        temperature: PropTypes.string,
+        temperature: PropTypes.string
     }
 
     constructor(props) {
@@ -33,5 +34,3 @@ class Temperature extends Component {
         )
     }
 }
-
-export default connect(mapStateToProps)(Temperature);

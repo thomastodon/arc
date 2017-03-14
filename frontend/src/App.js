@@ -1,11 +1,12 @@
 import "babel-polyfill"
 
+import Temperature from './components/Temperature'
 import React, { Component } from 'react';
 
 export default class App extends Component {
   render() {
     return (
-      <h1>Hello, world.</h1>
+      <Temperature></Temperature>
     );
   }
 }
