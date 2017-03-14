@@ -1,18 +1,24 @@
 var path = require('path')
 var webpack = require('webpack')
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   devtool: 'cheap-module-source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
-    './src/App'
+    './src/index'
   ],
   output: {
     pathinfo: true,
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js'
   },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    })
+  ],
   module: {
     loaders: [{
       test: /\.jsx?$/,
@@ -22,7 +28,6 @@ module.exports = {
     }]
   },
   devServer: {
-    stats: 'errors-only',
-    contentBase: "./src"
+    stats: 'errors-only'
   },
 }
