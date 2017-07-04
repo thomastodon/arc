@@ -15,7 +15,10 @@ class Temperature {
     private LocalDateTime time;
     private Double degrees;
 
-    public Temperature(LocalDateTime time, Double degrees) {
+    public Temperature() {
+    }
+
+    Temperature(LocalDateTime time, Double degrees) {
         this.time = time;
         this.degrees = degrees;
     }
