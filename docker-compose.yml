@@ -1,7 +1,7 @@
 version: '3'
 services:
   rabbitmq:
-    build: .
+    build: ./rabbitmq
     container_name: rabbit
     ports:
     - 15672:15672
@@ -17,7 +17,7 @@ services:
       MYSQL_USER: noah
       MYSQL_PASSWORD: herron
     ports:
-    - "3306:3306"
+    - 3306:3306
   db-test:
     container_name: db-test
     image: mysql:5.7
@@ -28,4 +28,4 @@ services:
       MYSQL_USER: noah
       MYSQL_PASSWORD: herron
     ports:
-    - "3307:3306"
+    - 3307:3306
