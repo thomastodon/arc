@@ -9,8 +9,6 @@ interface TemperatureRepository : JpaRepository<Temperature, Long> {
 
     fun save(temperature: Temperature)
 
-    fun findById(id: Long?): Temperature
-
     @Query(value = "SELECT * FROM temperature ORDER BY time DESC LIMIT 1", nativeQuery = true)
     fun findLatest(): Temperature
 }

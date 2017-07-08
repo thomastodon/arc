@@ -1,4 +1,4 @@
 buildscript {
-    apply from: "$rootDir/gradle/spring-cloud-stream.gradle"
     apply from: "$rootDir/gradle/spring-boot.gradle"
+    apply from: "$rootDir/gradle/spring-cloud.gradle"
 }

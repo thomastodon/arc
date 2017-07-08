@@ -26,7 +26,7 @@ open class TemperatureRepositoryTest {
         val temperature = Temperature(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45)
 
         temperatureRepository.save(temperature)
-        val actualTemperature = temperatureRepository.findById(temperature.id)
+        val actualTemperature = temperatureRepository.getOne(temperature.id)
 
         assertThat(actualTemperature).isSameAs(temperature)
     }
