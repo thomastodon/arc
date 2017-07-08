@@ -1,0 +1,24 @@
+group "haus"
+version "0.0.1"
+
+subprojects {
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.1"
+            classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.4.RELEASE"
+            classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    apply plugin: "java"
+
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
