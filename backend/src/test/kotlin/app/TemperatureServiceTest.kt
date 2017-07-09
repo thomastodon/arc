@@ -2,8 +2,8 @@ package app
 
 import com.nhaarman.mockito_kotlin.*
 import org.assertj.core.api.Assertions.assertThat
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import java.time.Clock
 import java.time.Instant
 import java.time.LocalDateTime
@@ -16,7 +16,7 @@ class TemperatureServiceTest {
     private val temperatureCaptor: KArgumentCaptor<Temperature> = argumentCaptor()
     private lateinit var temperatureService: TemperatureService
 
-    @Before
+    @BeforeEach
     fun setUp() {
         temperatureService = TemperatureService(mockTemperatureRepository, mockClock)
     }

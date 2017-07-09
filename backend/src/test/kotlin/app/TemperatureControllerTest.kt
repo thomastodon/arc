@@ -3,8 +3,8 @@ package app
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
-import org.junit.Before
-import org.junit.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType.APPLICATION_JSON_UTF8
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -19,7 +19,7 @@ class TemperatureControllerTest {
     private lateinit var temperatureController: TemperatureController
     private lateinit var mockMvc: MockMvc
 
-    @Before
+    @BeforeEach
     fun setUp() {
         temperatureController = TemperatureController(mockTemperatureService)
         mockMvc = MockMvcBuilders.standaloneSetup(temperatureController).build()

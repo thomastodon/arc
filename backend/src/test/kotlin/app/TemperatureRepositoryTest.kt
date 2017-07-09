@@ -1,21 +1,19 @@
 package app
 
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
-
-import javax.transaction.Transactional
+import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.time.LocalDateTime
-
-import org.assertj.core.api.Assertions.assertThat
+import javax.transaction.Transactional
 
 @Transactional
 @SpringBootTest
 @ActiveProfiles("test")
-@RunWith(SpringJUnit4ClassRunner::class)
+@ExtendWith(SpringExtension::class)
 open class TemperatureRepositoryTest {
 
     @Autowired

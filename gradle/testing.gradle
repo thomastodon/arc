@@ -1,0 +1,9 @@
+dependencies {
+    testCompile("org.junit.platform:junit-platform-runner:$junit_platform_version") {
+        exclude group: "junit", module: "junit"
+    }
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    testCompile "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+    testCompile "com.nhaarman:mockito-kotlin-kt1.1:$mockito_kotlin_version"
+    testCompile "net.wuerl.kotlin:assertj-core-kotlin:$assertj_core_kotlin_version"
+}
