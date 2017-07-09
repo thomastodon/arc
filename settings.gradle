@@ -1,4 +1,3 @@
-include 'haus'
 include 'frontend'
 include 'backend'
 include 'mock-messaging-client'
