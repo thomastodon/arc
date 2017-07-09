@@ -13,3 +13,6 @@ spring:
         temperature:
           destination: temperature
           group: haus
+
+logging.level:
+  root: INFO
