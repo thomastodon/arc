@@ -1,18 +1,13 @@
 server:
   port: 8081
 
-spring:
-  rabbitmq:
-    host: localhost
-    port: 5672
-    username: noah
-    password: herron
-  cloud:
-    stream:
-      bindings:
-        temperature:
-          destination: temperature
-          group: haus
+rabbitmq:
+  host: localhost
+  port: 5672
+  username: noah
+  password: herron
+  exchangeName: temperature
+  routingKey: temperature.created
 
 logging.level:
   root: INFO

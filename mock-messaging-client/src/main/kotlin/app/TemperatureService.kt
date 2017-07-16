@@ -7,12 +7,12 @@ import java.util.concurrent.ThreadLocalRandom
 
 @Component
 open class TemperatureService(
-    private val FakeTemperatureToRabbitGateway: FakeTemperatureToRabbitGateway
+    private val FakeTemperatureToAmqpGateway: FakeTemperatureToAmqpGateway
 ) {
 
     fun streamToRabbit() {
         Flux.interval(ofSeconds(1))
-            .doOnNext({ FakeTemperatureToRabbitGateway.send(fakeTemperature()) })
+            .doOnNext({ FakeTemperatureToAmqpGateway.send(fakeTemperature()) })
             .subscribe()
     }
 

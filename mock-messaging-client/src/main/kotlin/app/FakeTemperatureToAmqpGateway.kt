@@ -3,6 +3,6 @@ package app
 import org.springframework.integration.annotation.MessagingGateway
 
 @MessagingGateway(defaultRequestChannel = "fakeTemperatureChannel")
-interface FakeTemperatureToRabbitGateway {
+interface FakeTemperatureToAmqpGateway {
     fun send(data: String)
 }
