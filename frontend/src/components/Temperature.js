@@ -29,7 +29,6 @@ export class Temperature extends Component {
   }
 
   render() {
-    console.log(this.props.temperature);
     return (
       <div className="temperature">{this.props.temperature}</div>
     )

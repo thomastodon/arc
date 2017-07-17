@@ -1,16 +1,26 @@
 package app
 
+import org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE
+import org.springframework.messaging.MessageHandler
+import org.springframework.messaging.SubscribableChannel
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import org.springframework.web.bind.annotation.RestController
+import reactor.core.publisher.Flux
 
 @RestController
-@RequestMapping("/temperature")
+@RequestMapping("/temperatures")
 open class TemperatureController(
-    private val temperatureService: TemperatureService
+    private val serverSentEventChannel: SubscribableChannel
 ) {
 
-    @RequestMapping(method = arrayOf(RequestMethod.GET))
-    open fun getTemperature() =
-        temperatureService.getTemperature()
+    @GetMapping(produces = arrayOf(TEXT_EVENT_STREAM_VALUE))
+    fun sink(): Flux<Temperature> =
+        Flux.create({ sink ->
+            val handler = MessageHandler { it -> sink.next(it.payload as Temperature) }
+            sink.onCancel { serverSentEventChannel.unsubscribe(handler) }
+            serverSentEventChannel.subscribe(handler)
+        })
+
+//    TODO: handle the broken pipe errors when someone unsubscribes
 }

@@ -21,7 +21,7 @@ open class TemperatureRepositoryTest {
 
     @Test
     fun `save saves a Temperature to the Repository`() {
-        val temperature = Temperature(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45)
+        val temperature = TemperatureEntity(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45)
 
         temperatureRepository.save(temperature)
         val actualTemperature = temperatureRepository.getOne(temperature.id)
@@ -31,9 +31,9 @@ open class TemperatureRepositoryTest {
 
     @Test
     fun `findLatest returns the latest Temperature`() {
-        val temperature1 = Temperature(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45)
-        val temperature2 = Temperature(LocalDateTime.of(1983, 7, 13, 12, 29, 12), 23.45)
-        val temperature3 = Temperature(LocalDateTime.of(1984, 7, 13, 12, 29, 12), 23.45)
+        val temperature1 = TemperatureEntity(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45)
+        val temperature2 = TemperatureEntity(LocalDateTime.of(1983, 7, 13, 12, 29, 12), 23.45)
+        val temperature3 = TemperatureEntity(LocalDateTime.of(1984, 7, 13, 12, 29, 12), 23.45)
 
         temperatureRepository.save(temperature1)
         temperatureRepository.save(temperature2)
