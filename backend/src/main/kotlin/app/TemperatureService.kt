@@ -1,7 +1,6 @@
 package app
 
 import org.springframework.stereotype.Service
-import java.lang.Double.parseDouble
 import java.time.Clock
 import java.time.LocalDateTime
 
@@ -11,14 +10,14 @@ open class TemperatureService(
     private val clock: Clock
 ) {
 
-    open fun process(degrees: String) =
+    open fun save(temperature: Temperature) =
         temperatureRepository.save(
-            Temperature(
-                time = LocalDateTime.now(clock),
-                degrees = parseDouble(degrees)
+            TemperatureEntity(
+                timestamp = LocalDateTime.now(clock),
+                degrees = temperature.degrees
             )
         )
 
-    open fun getTemperature(): Temperature
+    open fun getLatest(): TemperatureEntity
         = temperatureRepository.findLatest()
 }

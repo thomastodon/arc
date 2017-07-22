@@ -13,7 +13,7 @@ class TemperatureServiceTest {
 
     private val mockTemperatureRepository: TemperatureRepository = mock()
     private val mockClock: Clock = mock()
-    private val temperatureCaptor: KArgumentCaptor<Temperature> = argumentCaptor()
+    private val temperatureEntityCaptor: KArgumentCaptor<TemperatureEntity> = argumentCaptor()
     private lateinit var temperatureService: TemperatureService
 
     @BeforeEach
@@ -26,17 +26,17 @@ class TemperatureServiceTest {
         whenever(mockClock.instant()).thenReturn(Instant.ofEpochMilli(395425752000L))
         whenever(mockClock.zone).thenReturn(ZoneId.of("America/New_York"))
 
-        temperatureService.process("32.64")
+        temperatureService.save(Temperature(32.64))
 
-        verify(mockTemperatureRepository).save(temperatureCaptor.capture())
-        val temperature = temperatureCaptor.firstValue
+        verify(mockTemperatureRepository).save(temperatureEntityCaptor.capture())
+        val temperature = temperatureEntityCaptor.firstValue
         assertThat(temperature.degrees).isEqualTo(32.64)
         assertThat(temperature.time).isEqualTo(LocalDateTime.of(1982, 7, 13, 12, 29, 12))
     }
 
     @Test
     fun `getTemperature gets the latest Temperature from the repository`() {
-        temperatureService.getTemperature()
+        temperatureService.getLatest()
 
         verify(mockTemperatureRepository).findLatest()
     }

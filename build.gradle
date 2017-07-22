@@ -8,6 +8,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.4.RELEASE"
         classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
     }
 }
 
@@ -15,8 +16,8 @@ allprojects {
     group "com.github.thomastodon"
 
     repositories {
-        maven { url 'http://repo.spring.io/snapshot' }
-        maven { url 'http://repo.spring.io/milestone' }
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
         mavenCentral()
     }
 
