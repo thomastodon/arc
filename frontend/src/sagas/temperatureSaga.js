@@ -21,9 +21,6 @@ function subscribeToSse(eventSrc) {
     eventSrc.onmessage = (message) => {
       emitter(JSON.parse(message.data));
     };
-    eventSrc.onerror = () => {
-      emitter(END);
-    };
     return () => {
       eventSrc.close();
     }
