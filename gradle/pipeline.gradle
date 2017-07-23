@@ -1,0 +1,34 @@
+task loginToPipeline(type: Exec) {
+
+    group "Continuous Integration"
+    description "Login to pipeline"
+
+    workingDir "pipeline"
+
+    commandLine "fly", "-t", "main", "login"
+}
+
+task landLinuxWorkers(type: Exec) {
+
+    group "Continuous Integration"
+    description "Land running Linux workers"
+
+}
+
+task setPipeline(type: Exec) {
+
+    group "Continuous Integration"
+    description "Set the pipeline configuration"
+
+    workingDir "pipeline"
+
+    commandLine "fly",
+            "-t", "main",
+            "set-pipeline",
+            "-p", "pipeline",
+            "-c", "./pipeline.yml",
+            "--load-vars-from", "./credentials.yml",
+            "-n"
+
+    dependsOn loginToPipeline
+}

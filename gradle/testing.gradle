@@ -13,6 +13,9 @@ dependencies {
 
 task unitTest(type: JavaExec) {
 
+    group "Testing"
+    description "Run unit tests"
+
     classpath = project.sourceSets.test.runtimeClasspath
     main "org.junit.platform.console.ConsoleLauncher"
     args "-t", "unit"
@@ -21,6 +24,9 @@ task unitTest(type: JavaExec) {
 }
 
 task integrationTest(type: JavaExec) {
+
+    group "Testing"
+    description "Run integration tests"
 
     classpath = project.sourceSets.test.runtimeClasspath
     main "org.junit.platform.console.ConsoleLauncher"

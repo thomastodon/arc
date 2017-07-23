@@ -12,6 +12,8 @@ buildscript {
     }
 }
 
+apply from: "$rootDir/gradle/pipeline.gradle"
+
 allprojects {
     group "com.github.thomastodon"
 
