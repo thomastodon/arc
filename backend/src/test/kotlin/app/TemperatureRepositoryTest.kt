@@ -1,41 +1,43 @@
 package app
 
 import org.assertj.core.api.Assertions.assertThat
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.ActiveProfiles
-import org.springframework.test.context.junit.jupiter.SpringExtension
-import java.time.LocalDateTime
-import javax.transaction.Transactional
 
-@Transactional
-@SpringBootTest
-@ActiveProfiles("test")
-@ExtendWith(SpringExtension::class)
 @Tag("integration")
 open class TemperatureRepositoryTest {
 
-    @Autowired
     private lateinit var temperatureRepository: TemperatureRepository
 
+    @BeforeEach
+    fun setUp() {
+        temperatureRepository = MySqlTemperatureRepository(Utility.jdbcTemplate)
+    }
+
     @Test
-    fun `save saves a Temperature to the Repository`() {
-        val temperature = TemperatureEntity(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45)
+    fun `writes to and reads from the database`() {
+
+        val temperature = TemperatureEntity(0, 23.45)
 
         temperatureRepository.save(temperature)
-        val actualTemperature = temperatureRepository.getOne(temperature.id)
 
-        assertThat(actualTemperature).isSameAs(temperature)
+        val actualTemperature = temperatureRepository.findById(temperature.id)
+
+        assertThat(actualTemperature).isEqualTo(temperature)
+    }
+
+    @Test
+    fun `returns null if the temperature is not there`() {
+        assertThat(temperatureRepository.findById(1L)).isNull()
     }
 
     @Test
     fun `findLatest returns the latest Temperature`() {
-        val temperature1 = TemperatureEntity(LocalDateTime.of(1982, 7, 13, 12, 29, 12), 23.45)
-        val temperature2 = TemperatureEntity(LocalDateTime.of(1983, 7, 13, 12, 29, 12), 23.45)
-        val temperature3 = TemperatureEntity(LocalDateTime.of(1984, 7, 13, 12, 29, 12), 23.45)
+        val temperature1 = TemperatureEntity(0, 23.45)
+        val temperature2 = TemperatureEntity(1, 23.45)
+        val temperature3 = TemperatureEntity(2, 23.45)
 
         temperatureRepository.save(temperature1)
         temperatureRepository.save(temperature2)
@@ -43,6 +45,11 @@ open class TemperatureRepositoryTest {
 
         val latestTemperature = temperatureRepository.findLatest()
 
-        assertThat(latestTemperature).isSameAs(temperature3)
+        assertThat(latestTemperature).isEqualTo(temperature3)
+    }
+
+    @AfterEach
+    fun tearDown() {
+        temperatureRepository.deleteAll()
     }
 }

@@ -9,6 +9,7 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:1.4.4.RELEASE"
         classpath "io.spring.gradle:dependency-management-plugin:0.5.2.RELEASE"
         classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
+        classpath "org.flywaydb:flyway-gradle-plugin:5.0.7"
     }
 }
 

@@ -1,9 +1,0 @@
-spring:
-  jpa:
-    show-sql: true
-    hibernate.ddl-auto: create-drop
-    properties.hibernate.dialect: dialects.MySQL5MyISAMDialect
-  datasource:
-    url: jdbc:mysql://localhost:3306/haus
-    username: admin
-    password: admin

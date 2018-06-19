@@ -3,4 +3,13 @@ buildscript {
     apply from: "$rootDir/gradle/spring-integration.gradle"
     apply from: "$rootDir/gradle/spring-data.gradle"
     apply from: "$rootDir/gradle/testing.gradle"
+
+    apply plugin: 'org.flywaydb.flyway'
+}
+
+
+flyway {
+    url = jdbcMySqlUrl
+    user = 'admin'
+    password = 'admin'
 }
