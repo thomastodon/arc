@@ -25,9 +25,9 @@ open class ApplicationConfiguration {
 
         val dataSource = SimpleDriverDataSource(
             com.mysql.cj.jdbc.Driver(),
-            "jdbc:mysql://localhost:3306/haus?useSSL=false",
-            "admin",
-            "admin"
+            datasourceUrl,
+            datasourceUsername,
+            datasourcePassword
         )
 
         Flyway()
