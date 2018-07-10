@@ -2,6 +2,7 @@ package app.config
 
 import app.MySqlTemperatureRepository
 import app.TemperatureRepository
+import org.flywaydb.core.Flyway
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -28,6 +29,10 @@ open class ApplicationConfiguration {
             "admin",
             "admin"
         )
+
+        Flyway()
+            .apply { this.dataSource = dataSource; isCleanOnValidationError = true }
+            .run { migrate() }
 
         return NamedParameterJdbcTemplate(dataSource)
     }
