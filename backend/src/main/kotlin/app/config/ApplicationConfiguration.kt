@@ -31,7 +31,7 @@ open class ApplicationConfiguration {
         )
 
         Flyway()
-            .apply { this.dataSource = dataSource; isCleanOnValidationError = true }
+            .apply { this.dataSource = dataSource; isCleanOnValidationError = true; isInitOnMigrate = true }
             .run { migrate() }
 
         return NamedParameterJdbcTemplate(dataSource)

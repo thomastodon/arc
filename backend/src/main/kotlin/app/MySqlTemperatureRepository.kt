@@ -25,7 +25,7 @@ class MySqlTemperatureRepository(
 
     override fun save(temperatureEntity: TemperatureEntity) {
 
-        val sql = "INSERT INTO temperature (id, createTimestamp, degrees) VALUES (:id, CURRENT_TIMESTAMP(6), :degrees)"
+        val sql = "INSERT INTO temperature (id, create_timestamp, degrees) VALUES (:id, CURRENT_TIMESTAMP(6), :degrees)"
 
         val parameters = mutableMapOf(
             "id" to temperatureEntity.id,
@@ -37,7 +37,7 @@ class MySqlTemperatureRepository(
 
     override fun findLatest(): TemperatureEntity? {
 
-        val sql = "SELECT * FROM temperature ORDER BY createTimestamp DESC"
+        val sql = "SELECT * FROM temperature ORDER BY create_timestamp DESC"
 
         return jdbcTemplate.query(sql, HashMap<String, Any>(), temperatureRowMapper).elementAtOrNull(0)
     }

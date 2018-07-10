@@ -5,6 +5,8 @@ import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
+import java.time.ZonedDateTime
+import java.time.temporal.ChronoUnit.SECONDS
 
 @Tag("integration")
 open class TemperatureRepositoryTest {
@@ -17,24 +19,37 @@ open class TemperatureRepositoryTest {
     }
 
     @Test
-    fun `writes to and reads from the database`() {
+    fun `save, writes fields from entity into the database`() {
 
         val temperature = TemperatureEntity(0, 23.45)
 
         temperatureRepository.save(temperature)
 
-        val actualTemperature = temperatureRepository.findById(temperature.id)
+        val actualTemperature = temperatureRepository.findById(temperature.id)!!
 
-        assertThat(actualTemperature).isEqualTo(temperature)
+        assertThat(actualTemperature.id).isEqualTo(0)
+        assertThat(actualTemperature.degrees).isEqualTo(23.45)
     }
 
     @Test
-    fun `returns null if the temperature is not there`() {
+    fun `save, writes a record with the current timestamp`() {
+
+        val temperature = TemperatureEntity(0, 23.45)
+
+        temperatureRepository.save(temperature)
+
+        val actualTemperature = temperatureRepository.findById(temperature.id)!!
+
+        assertThat(actualTemperature.timestamp).isBetween(ZonedDateTime.now().minus(5, SECONDS), ZonedDateTime.now())
+    }
+
+    @Test
+    fun `findById, returns null if the temperature is not there`() {
         assertThat(temperatureRepository.findById(1L)).isNull()
     }
 
     @Test
-    fun `findLatest returns the latest Temperature`() {
+    fun `findLatest, returns the latest Temperature`() {
         val temperature1 = TemperatureEntity(0, 23.45)
         val temperature2 = TemperatureEntity(1, 23.45)
         val temperature3 = TemperatureEntity(2, 23.45)
@@ -43,9 +58,9 @@ open class TemperatureRepositoryTest {
         temperatureRepository.save(temperature2)
         temperatureRepository.save(temperature3)
 
-        val latestTemperature = temperatureRepository.findLatest()
+        val latestTemperature = temperatureRepository.findLatest()!!
 
-        assertThat(latestTemperature).isEqualTo(temperature3)
+        assertThat(latestTemperature.id).isEqualTo(2)
     }
 
     @AfterEach
