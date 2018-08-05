@@ -3,8 +3,7 @@ package app
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpStatus
-import org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE
-import org.springframework.http.MediaType.TEXT_EVENT_STREAM_VALUE
+import org.springframework.http.MediaType.*
 import org.springframework.integration.channel.MessageChannelReactiveUtils.toPublisher
 import org.springframework.messaging.PollableChannel
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -22,7 +21,7 @@ open class TemperatureController(
 
     private val logger = LoggerFactory.getLogger(TemperatureController::class.java)
 
-    @GetMapping("/temperatures", produces = arrayOf(TEXT_EVENT_STREAM_VALUE))
+    @GetMapping("/temperatures", produces = arrayOf(APPLICATION_STREAM_JSON_VALUE))
     fun sink(): Flux<Temperature> = Flux
         .from(toPublisher<Temperature>(serverSentEventChannel))
         .map { it.payload }

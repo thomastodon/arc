@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
 import org.springframework.http.MediaType
-import org.springframework.http.MediaType.TEXT_EVENT_STREAM
+import org.springframework.http.MediaType.*
 import org.springframework.integration.channel.QueueChannel
 import org.springframework.messaging.PollableChannel
 import org.springframework.messaging.support.GenericMessage
@@ -64,7 +64,7 @@ class TemperatureControllerTest {
 
         val publisher = webTestClient.get()
             .uri("/temperatures")
-            .accept(TEXT_EVENT_STREAM)
+            .accept(APPLICATION_STREAM_JSON)
             .exchange()
             .expectStatus().isOk
             .returnResult<Temperature>().responseBody

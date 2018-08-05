@@ -41,6 +41,7 @@ class ApplicationTest {
 
         val result: MvcResult = mockMvc.perform(get("/temperatures"))
             .andExpect(request().asyncStarted())
+            .andExpect(content().contentType(MediaType.APPLICATION_STREAM_JSON))
             .andReturn()
 
         val temperature = Temperature(degrees = 30.654)
