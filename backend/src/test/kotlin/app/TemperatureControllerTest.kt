@@ -67,9 +67,10 @@ class TemperatureControllerTest {
             .accept(APPLICATION_STREAM_JSON)
             .exchange()
             .expectStatus().isOk
-            .returnResult<Temperature>().responseBody
+            .returnResult<String>()
+            .responseBody
 
-        assertThat(publisher.next().block()).isEqualTo(temperature)
+        assertThat(publisher.next().block()).isEqualTo("{\"degrees\":30.654}")
     }
 
     @Test
