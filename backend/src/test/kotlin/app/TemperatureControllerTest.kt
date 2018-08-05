@@ -1,40 +1,100 @@
 package app
 
-import com.nhaarman.mockito_kotlin.any
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Tag
 import org.junit.jupiter.api.Test
-import org.springframework.http.MediaType.parseMediaType
-import org.springframework.messaging.MessageHandler
-import org.springframework.messaging.SubscribableChannel
+import org.springframework.http.MediaType
+import org.springframework.http.MediaType.TEXT_EVENT_STREAM
+import org.springframework.integration.channel.QueueChannel
+import org.springframework.messaging.PollableChannel
+import org.springframework.messaging.support.GenericMessage
+import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.returnResult
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.MvcResult
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.content
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers.*
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 
 @Tag("unit")
 class TemperatureControllerTest {
 
-    private val mockSseChannel: SubscribableChannel = mock()
+    private val fakeServerSentEventChannel: PollableChannel = QueueChannel()
     private lateinit var temperatureController: TemperatureController
     private lateinit var mockMvc: MockMvc
+    private lateinit var webTestClient: WebTestClient
 
     @BeforeEach
     fun setUp() {
-        temperatureController = TemperatureController(mockSseChannel)
+        temperatureController = TemperatureController(fakeServerSentEventChannel)
+
         mockMvc = MockMvcBuilders.standaloneSetup(temperatureController).build()
+        webTestClient = WebTestClient.bindToController(temperatureController).build()
     }
 
     @Test
-    fun getTemperature() {
+    @Disabled
+    fun `get, with MockMvc`() {
 
-        mockMvc.perform(get("/temperatures"))
+        val result: MvcResult = mockMvc.perform(get("/temperatures"))
+            .andExpect(request().asyncStarted())
+            .andReturn()
+
+        val temperature = Temperature(degrees = 30.654)
+
+        fakeServerSentEventChannel.send(GenericMessage(temperature))
+
+        mockMvc.perform(asyncDispatch(result))
+            .andDo(print())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
             .andExpect(status().isOk)
-            .andExpect(content().contentType(parseMediaType("text/event-stream;charset=UTF-8")))
+            .andExpect(content().string("[{\"degrees\":30.654}]"))
+    }
 
-        verify(mockSseChannel).subscribe(any<MessageHandler>())
+    @Test
+    fun `get, with WebTestClient`() {
+
+        val temperature = Temperature(degrees = 30.654)
+
+        fakeServerSentEventChannel.send(GenericMessage(temperature))
+
+        val publisher = webTestClient.get()
+            .uri("/temperatures")
+            .accept(TEXT_EVENT_STREAM)
+            .exchange()
+            .expectStatus().isOk
+            .returnResult<Temperature>().responseBody
+
+        assertThat(publisher.next().block()).isEqualTo(temperature)
+    }
+
+    @Test
+    fun `get simple, with MockMvc`() {
+
+        val result: MvcResult = mockMvc.perform(get("/simple"))
+            .andExpect(request().asyncStarted())
+            .andReturn()
+
+        mockMvc
+            .perform(asyncDispatch(result))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(status().isOk)
+            .andExpect(content().string("[{\"number\":0},{\"number\":1},{\"number\":2}]"))
+    }
+
+    @Test
+    fun `get simple, with WebTestClient`() {
+
+        webTestClient.get()
+            .uri("/simple")
+            .exchange()
+            .expectStatus().isOk
+            .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+            .expectBody().json("[{\"number\":0},{\"number\":1},{\"number\":2}]")
+
     }
 }

@@ -7,6 +7,9 @@ buildscript {
     apply plugin: 'org.flywaydb.flyway'
 }
 
+dependencies {
+    testCompile('org.springframework:spring-webflux')
+}
 
 flyway {
     url = jdbcMySqlUrl
