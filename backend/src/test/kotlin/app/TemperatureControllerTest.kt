@@ -37,7 +37,7 @@ class TemperatureControllerTest {
     }
 
     @Test
-    @Disabled
+    @Disabled("this fails without the proper Executor that we get from spring config")
     fun `get, with MockMvc`() {
 
         val result: MvcResult = mockMvc.perform(get("/temperatures"))

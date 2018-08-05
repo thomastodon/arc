@@ -8,6 +8,6 @@ rabbitmq:
   routingKey: temperature.created
 
 datasource:
-  url: jdbc:mysql://localhost:3306/haus?localhost:3306
+  url: jdbc:mysql://localhost:3306/haus?useSSL=false
   username: admin
   password: admin
