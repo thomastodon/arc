@@ -8,6 +8,7 @@ services:
     - 5672:5672
     - 1883:1883
   db:
+    image: thomastodon/mariadb
     container_name: db
     image: mysql:5.7
     restart: always
