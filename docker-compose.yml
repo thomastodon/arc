@@ -10,7 +10,6 @@ services:
   db:
     image: thomastodon/mariadb
     container_name: db
-    image: mysql:5.7
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: secret
